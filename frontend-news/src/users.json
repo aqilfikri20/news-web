@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@newshub.com",
+    "password": "admin123",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "name": "Budi Santoso",
+    "email": "budi@gmail.com",
+    "password": "budi123",
+    "role": "admin"
+  },
+  {
+    "id": 3,
+    "name": "Siti Rahma",
+    "email": "siti@gmail.com",
+    "password": "siti123",
+    "role": "user"
+  },
+  {
+    "id": 4,
+    "name": "Andi Pratama",
+    "email": "andi@gmail.com",
+    "password": "andi123",
+    "role": "user"
+  },
+  {
+    "id": 5,
+    "name": "Dina Lestari",
+    "email": "dina@gmail.com",
+    "password": "dina123",
+    "role": "user"
+  }
+]

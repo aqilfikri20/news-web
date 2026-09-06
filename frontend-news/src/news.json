@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "title": "Perkembangan Artificial Intelligence di Tahun 2026",
+    "description": "Artificial Intelligence terus berkembang dan mulai digunakan dalam berbagai bidang kehidupan.",
+    "content": "Artificial Intelligence atau AI mengalami perkembangan yang sangat pesat. Teknologi ini telah digunakan dalam bidang pendidikan, kesehatan, bisnis, pemerintahan, hingga industri kreatif. Perkembangan model AI yang semakin canggih membuat teknologi ini mampu membantu manusia menyelesaikan berbagai pekerjaan dengan lebih cepat dan efisien.",
+    "image_url": "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    "category": {
+      "id": 1,
+      "name": "Technology"
+    },
+    "author": {
+      "id": 1,
+      "name": "Admin"
+    },
+    "created_at": "2026-09-02T08:00:00",
+    "updated_at": "2026-09-02T08:00:00"
+  },
+  {
+    "id": 2,
+    "title": "Teknologi Mengubah Cara Kerja di Era Digital",
+    "description": "Transformasi digital membuat perusahaan mulai menerapkan berbagai teknologi baru untuk meningkatkan produktivitas.",
+    "content": "Transformasi digital telah mengubah cara perusahaan menjalankan bisnis. Penggunaan cloud computing, artificial intelligence, automation, dan berbagai teknologi lainnya memungkinkan perusahaan bekerja lebih cepat dan efisien. Perubahan ini juga membuat kemampuan teknologi menjadi salah satu kebutuhan penting dalam dunia kerja.",
+    "image_url": "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    "category": {
+      "id": 1,
+      "name": "Technology"
+    },
+    "author": {
+      "id": 2,
+      "name": "Budi Santoso"
+    },
+    "created_at": "2026-09-01T10:30:00",
+    "updated_at": "2026-09-01T10:30:00"
+  },
+  {
+    "id": 3,
+    "title": "Tren Web Development yang Semakin Populer",
+    "description": "Pengembangan aplikasi web terus berkembang dengan hadirnya berbagai framework dan teknologi baru.",
+    "content": "Dunia web development mengalami perkembangan yang sangat cepat. Framework seperti React, Vue, Next.js, FastAPI, dan berbagai teknologi lainnya banyak digunakan untuk membangun aplikasi modern. Developer juga semakin memperhatikan performa, keamanan, skalabilitas, dan pengalaman pengguna.",
+    "image_url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+    "category": {
+      "id": 2,
+      "name": "Development"
+    },
+    "author": {
+      "id": 1,
+      "name": "Admin"
+    },
+    "created_at": "2026-08-31T14:00:00",
+    "updated_at": "2026-08-31T14:00:00"
+  },
+  {
+    "id": 4,
+    "title": "Startup Indonesia Mulai Fokus pada Teknologi AI",
+    "description": "Banyak startup Indonesia mulai memanfaatkan AI untuk meningkatkan layanan dan efisiensi bisnis.",
+    "content": "Pemanfaatan AI oleh perusahaan startup semakin meningkat. AI digunakan untuk customer service, analisis data, rekomendasi produk, hingga otomatisasi berbagai proses bisnis. Hal ini membuka peluang baru bagi perusahaan untuk meningkatkan produktivitas sekaligus memberikan pengalaman yang lebih baik kepada pengguna.",
+    "image_url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+    "category": {
+      "id": 1,
+      "name": "Technology"
+    },
+    "author": {
+      "id": 3,
+      "name": "Siti Rahma"
+    },
+    "created_at": "2026-08-30T09:15:00",
+    "updated_at": "2026-08-30T09:15:00"
+  },
+  {
+    "id": 5,
+    "title": "Perkembangan Ekonomi Digital Indonesia",
+    "description": "Ekonomi digital Indonesia terus berkembang seiring meningkatnya penggunaan layanan digital.",
+    "content": "Pertumbuhan ekonomi digital Indonesia terus mengalami peningkatan. E-commerce, layanan keuangan digital, transportasi online, dan berbagai platform digital telah menjadi bagian dari aktivitas masyarakat sehari-hari. Perkembangan ini juga menciptakan peluang baru bagi pelaku bisnis dan masyarakat.",
+    "image_url": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
+    "category": {
+      "id": 3,
+      "name": "Business"
+    },
+    "author": {
+      "id": 2,
+      "name": "Budi Santoso"
+    },
+    "created_at": "2026-08-29T11:00:00",
+    "updated_at": "2026-08-29T11:00:00"
+  },
+  {
+    "id": 6,
+    "title": "Tips Membangun Aplikasi Web yang Scalable",
+    "description": "Beberapa hal penting yang perlu diperhatikan ketika membangun aplikasi web agar mampu berkembang.",
+    "content": "Membangun aplikasi web yang scalable membutuhkan perencanaan arsitektur yang baik. Developer perlu memperhatikan struktur database, API, caching, keamanan, performa frontend, dan kemampuan server dalam menangani peningkatan jumlah pengguna.",
+    "image_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
+    "category": {
+      "id": 2,
+      "name": "Development"
+    },
+    "author": {
+      "id": 1,
+      "name": "Admin"
+    },
+    "created_at": "2026-08-28T16:45:00",
+    "updated_at": "2026-08-28T16:45:00"
+  }
+]

@@ -1,0 +1,699 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f6f6f4;
+
+    color: #181818;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main-content {
+
+    min-height: 100vh;
+
+    padding: 40px;
+
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    max-width: 1100px;
+
+    margin: 0 auto 35px;
+
+}
+
+
+.topbar h1 {
+
+    font-size: 30px;
+
+    letter-spacing: -1px;
+
+}
+
+
+.topbar p {
+
+    margin-top: 6px;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================
+   ADMIN PROFILE
+========================= */
+
+.admin-profile {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.avatar {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #181818;
+
+    color: white;
+
+    font-weight: 600;
+
+}
+
+
+.admin-profile strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+
+.admin-profile small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #888;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================
+   CONTENT GRID
+========================= */
+
+.content-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+
+    background: white;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 10px;
+
+    padding: 25px;
+
+}
+
+
+.card-header {
+
+    margin-bottom: 22px;
+
+}
+
+
+.card-header h2 {
+
+    font-size: 18px;
+
+}
+
+
+.card-header p {
+
+    margin-top: 6px;
+
+    color: #888;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+.upload-area {
+
+    padding: 35px 20px;
+
+    border: 2px dashed #d8d8d8;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    margin-bottom: 15px;
+
+}
+
+
+.upload-icon {
+
+    font-size: 30px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.upload-area h3 {
+
+    font-size: 15px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.upload-area p {
+
+    color: #888;
+
+    font-size: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.upload-area input {
+
+    display: none;
+
+}
+
+
+.choose-file {
+
+    display: inline-block;
+
+    padding: 9px 15px;
+
+    border-radius: 6px;
+
+    background: #181818;
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+
+.choose-file:hover {
+
+    background: #333;
+
+}
+
+
+#file-name {
+
+    display: block;
+
+    margin-top: 10px;
+
+    color: #888;
+
+    font-size: 11px;
+
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.primary-button {
+
+    width: 100%;
+
+    padding: 12px 15px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #181818;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    cursor: pointer;
+
+}
+
+
+.primary-button:hover {
+
+    background: #333;
+
+}
+
+
+/* =========================
+   API
+========================= */
+
+.api-info {
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    margin-bottom: 15px;
+
+}
+
+
+.api-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+
+.api-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.api-row code {
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+}
+
+
+.method {
+
+    width: 55px;
+
+    padding: 4px 6px;
+
+    border-radius: 4px;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.method.get {
+
+    background: #e8f5e9;
+
+    color: #2e7d32;
+
+}
+
+
+.method.post {
+
+    background: #e3f2fd;
+
+    color: #1565c0;
+
+}
+
+
+.method.put {
+
+    background: #fff8e1;
+
+    color: #f57f17;
+
+}
+
+
+.method.delete {
+
+    background: #ffebee;
+
+    color: #c62828;
+
+}
+
+
+/* =========================
+   DOCUMENTATION BUTTONS
+========================= */
+
+.documentation-buttons {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+}
+
+
+.secondary-button {
+
+    padding: 12px 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    color: #181818;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.secondary-button:hover {
+
+    background: #f5f5f5;
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout-container {
+
+    max-width: 1100px;
+
+    margin: 20px auto 0;
+
+    text-align: right;
+
+}
+
+
+.logout-button {
+
+    padding: 9px 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #181818;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+
+.logout-button:hover {
+
+    background: #f5f5f5;
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-container {
+
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 400px;
+
+    padding: 35px;
+
+    background: white;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.05);
+
+}
+
+
+.login-header {
+
+    margin-bottom: 25px;
+
+}
+
+
+.login-header h1 {
+
+    margin-bottom: 30px;
+
+    font-size: 26px;
+
+}
+
+
+.login-header h1 span {
+
+    font-weight: 400;
+
+}
+
+
+.login-header h2 {
+
+    font-size: 22px;
+
+}
+
+
+.login-header p {
+
+    margin-top: 6px;
+
+    color: #888;
+
+    font-size: 13px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 12px 13px;
+
+    border: 1px solid #dcdcdc;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+}
+
+
+.form-group input:focus {
+
+    outline: none;
+
+    border-color: #181818;
+
+}
+
+
+.error-message {
+
+    margin-bottom: 18px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #f0caca;
+
+    border-radius: 6px;
+
+    background: #fff1f1;
+
+    color: #c62828;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .main-content {
+
+        padding: 25px 15px;
+
+    }
+
+
+    .content-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .topbar {
+
+        align-items: flex-start;
+
+    }
+
+
+    .admin-profile {
+
+        display: none;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .documentation-buttons {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .login-card {
+
+        padding: 25px;
+
+    }
+
+}

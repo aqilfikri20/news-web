@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NewsHub Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='dashboard.css') }}"
+    >
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <main class="main-content">
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Kelola data NewsHub melalui dashboard.
+                    </p>
+                </div>
+
+                {% if logged_in %}
+
+                <div class="admin-profile">
+
+                    <div class="avatar">
+                        A
+                    </div>
+
+                    <div>
+                        <strong>Admin</strong>
+
+                        <small>
+                            Administrator
+                        </small>
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </header>
+
+
+            <!-- =========================
+                 CONTENT
+            ========================== -->
+
+            <section class="content-grid">
+
+
+                <!-- =========================
+                     LOGIN / UPLOAD
+                ========================== -->
+
+                <div class="card upload-card">
+
+                    {% if not logged_in %}
+
+                    <!-- =========================
+                         ADMIN LOGIN
+                    ========================== -->
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Admin Login
+                            </h2>
+
+                            <p>
+                                Login untuk mengupload data berita.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if error %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <form
+                        action="/dashboard/login"
+                        method="POST"
+                    >
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="admin@newshub.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Masukkan password"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Login
+                        </button>
+
+                    </form>
+
+
+                    {% else %}
+
+                    <!-- =========================
+                         UPLOAD NEWS JSON
+                    ========================== -->
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Upload News JSON
+                            </h2>
+
+                            <p>
+                                Import data berita ke database.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUCCESS MESSAGE -->
+
+                    {% if success %}
+
+                    <div class="success-message">
+                        {{ success }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- ERROR MESSAGE -->
+
+                    {% if error %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- UPLOAD FORM -->
+
+                    <form
+                        action="/dashboard/upload"
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        <div class="upload-area">
+
+                            <div class="upload-icon">
+                                ↑
+                            </div>
+
+
+                            <h3>
+                                Upload file JSON
+                            </h3>
+
+
+                            <p>
+                                Pilih file JSON yang berisi
+                                data berita.
+                            </p>
+
+
+                            <input
+                                type="file"
+                                name="file"
+                                accept=".json,application/json"
+                                id="json-file"
+                                required
+                            >
+
+
+                            <label
+                                for="json-file"
+                                class="choose-file"
+                            >
+                                Choose File
+                            </label>
+
+
+                            <span id="file-name">
+                                Belum ada file dipilih
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Upload & Import
+                        </button>
+
+                    </form>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =========================
+                     API DOCUMENTATION
+                ========================== -->
+
+                <div class="card api-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                API Documentation
+                            </h2>
+
+                            <p>
+                                Dokumentasi RESTful API NewsHub.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="api-info">
+
+                        <!-- GET -->
+
+                        <div class="api-row">
+
+                            <span class="method get">
+                                GET
+                            </span>
+
+                            <code>
+                                /api/news/
+                            </code>
+
+                        </div>
+
+
+                        <!-- POST -->
+
+                        <div class="api-row">
+
+                            <span class="method post">
+                                POST
+                            </span>
+
+                            <code>
+                                /api/news/
+                            </code>
+
+                        </div>
+
+
+                        <!-- PUT -->
+
+                        <div class="api-row">
+
+                            <span class="method put">
+                                PUT
+                            </span>
+
+                            <code>
+                                /api/news/{id}
+                            </code>
+
+                        </div>
+
+
+                        <!-- DELETE -->
+
+                        <div class="api-row">
+
+                            <span class="method delete">
+                                DELETE
+                            </span>
+
+                            <code>
+                                /api/news/{id}
+                            </code>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOCUMENTATION BUTTONS -->
+
+                    <div class="documentation-buttons">
+
+                        <a
+                            href="/docs"
+                            class="primary-button"
+                        >
+                            Open Swagger UI
+                        </a>
+
+
+                        <a
+                            href="/redoc"
+                            class="secondary-button"
+                        >
+                            Open ReDoc
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 LOGOUT
+            ========================== -->
+
+            {% if logged_in %}
+
+            <div class="logout-container">
+
+                <form
+                    action="/dashboard/logout"
+                    method="POST"
+                >
+
+                    <button
+                        type="submit"
+                        class="logout-button"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% endif %}
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const fileInput =
+            document.getElementById("json-file");
+
+        const fileName =
+            document.getElementById("file-name");
+
+
+        if (fileInput && fileName) {
+
+            fileInput.addEventListener(
+                "change",
+                function () {
+
+                    if (this.files.length > 0) {
+
+                        fileName.textContent =
+                            this.files[0].name;
+
+                    } else {
+
+                        fileName.textContent =
+                            "Belum ada file dipilih";
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
