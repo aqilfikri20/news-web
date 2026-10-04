@@ -4,7 +4,6 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
-
 class User(Base):
     __tablename__ = "users"
 
@@ -12,10 +11,21 @@ class User(Base):
     name = Column(String(100), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
-    role = Column(String(20), default="user")
+    phone = Column(String(30))
+    address = Column(Text)
+    role = Column(String(20), default="writer", server_default="writer", nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
     news = relationship("News", back_populates="author")
+
+
+class CaptchaChallenge(Base):
+    __tablename__ = "captcha_challenges"
+
+    id = Column(String(36), primary_key=True)
+    answer_hash = Column(String(64), nullable=False)
+    expires_at = Column(DateTime(timezone=True), nullable=False)
+    consumed = Column(Integer, default=0, nullable=False)
 
 
 class Category(Base):

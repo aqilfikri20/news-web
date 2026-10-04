@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
 from . import models
@@ -9,10 +10,12 @@ def create_user(
     user: schemas.UserCreate
 ):
     db_user = models.User(
-        name=user.name,
-        email=user.email,
+        name=user.name.strip(),
+        email=user.email.strip().lower(),
+        phone=user.phone.strip(),
+        address=user.address.strip(),
         password=user.password,
-        role=user.role
+        role="writer",
     )
 
     db.add(db_user)
@@ -20,7 +23,6 @@ def create_user(
     db.refresh(db_user)
 
     return db_user
-
 
 def get_users(
     db: Session
@@ -172,7 +174,9 @@ def delete_category(
 
 def create_news(
     db: Session,
-    news: schemas.NewsCreate
+    news: schemas.NewsCreate,
+    *,
+    author_id: int,
 ):
     db_news = models.News(
         title=news.title,
@@ -180,7 +184,7 @@ def create_news(
         content=news.content,
         image_url=news.image_url,
         category_id=news.category_id,
-        author_id=news.author_id
+        author_id=author_id
     )
 
     db.add(db_news)
@@ -198,6 +202,46 @@ def get_news(db: Session):
         )
         .all()
     )
+
+
+def get_news_page(
+    db: Session,
+    *,
+    page: int,
+    per_page: int,
+    category_name: str | None = None,
+    author_id: int | None = None,
+):
+    base_query = db.query(models.News)
+    if category_name:
+        base_query = base_query.join(models.News.category).filter(
+            func.lower(models.Category.name) == category_name.lower()
+        )
+    if author_id is not None:
+        base_query = base_query.filter(models.News.author_id == author_id)
+
+    total = base_query.with_entities(func.count(models.News.id)).scalar() or 0
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    page = min(page, total_pages)
+
+    items = (
+        base_query
+        .options(
+            joinedload(models.News.category),
+            joinedload(models.News.author),
+        )
+        .order_by(models.News.created_at.desc(), models.News.id.desc())
+        .offset((page - 1) * per_page)
+        .limit(per_page)
+        .all()
+    )
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "per_page": per_page,
+        "total_pages": total_pages,
+    }
 
 
 def get_news_by_id(db: Session, news_id: int):

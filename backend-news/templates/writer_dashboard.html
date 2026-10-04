@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub | Dashboard Penulis</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='dashboard.css') }}">
+</head>
+<body>
+<main class="main-content">
+    <header class="topbar">
+        <div><p class="eyebrow">PORTAL PENULIS</p><h1>Halo, {{ writer.name }}</h1><p>{{ writer.email }}{% if writer.phone %} · {{ writer.phone }}{% endif %}</p></div>
+        <div class="topbar-actions"><a class="button button-primary site-link" href="{{ frontend_url }}">NewsHub ↗</a><form action="/writer/logout" method="post"><button class="button button-light" type="submit">Keluar</button></form></div>
+    </header>
+    <nav class="dashboard-nav" aria-label="Navigasi penulis">
+        <a class="nav-tab {% if mode == 'list' %}active{% endif %}" href="/writer/dashboard">Berita saya</a>
+        <a class="nav-tab {% if mode in ['create', 'edit'] %}active{% endif %}" href="/writer/news/new">Tulis berita</a>
+        <a class="nav-tab" href="/writer/profile">Profil saya</a>
+    </nav>
+    {% if error %}<div class="notice error-message">{{ error }}</div>{% endif %}
+    {% if success %}<div class="notice success-message">{{ success }}</div>{% endif %}
+
+    {% if mode == 'list' %}
+    <section class="panel list-panel">
+        <div class="section-heading"><div><p class="eyebrow">KARYA ANDA</p><h2>Berita saya <span class="count">{{ total }}</span></h2></div><a class="button button-primary add-news-button" href="/writer/news/new">+ Tulis berita</a></div>
+        {% if news_items %}
+        <div class="table-wrap"><table>
+            <thead><tr><th>Gambar</th><th>Judul</th><th>Kategori</th><th>Dibuat</th><th>Aksi</th></tr></thead>
+            <tbody>{% for item in news_items %}
+            <tr>
+                <td><img class="news-thumbnail" src="{{ item.image_url or '' }}" alt="Gambar {{ item.title }}" loading="lazy" {% if not item.image_url %}hidden{% endif %}></td>
+                <td><strong>{{ item.title }}</strong><small>ID {{ item.id }}</small></td>
+                <td>{{ item.category.name }}</td>
+                <td>{{ item.created_at.strftime('%d %b %Y') if item.created_at else '—' }}</td>
+                <td class="actions"><a class="button button-light" href="/writer/news/{{ item.id }}/edit">Edit</a>
+                    <form action="/writer/news/{{ item.id }}/delete" method="post" onsubmit="return confirm('Hapus berita dan gambar ini?')"><button class="button button-danger" type="submit">Hapus</button></form></td>
+            </tr>{% endfor %}</tbody>
+        </table></div>
+        {% else %}<p class="empty-state">Anda belum menerbitkan berita. Mulai dengan menulis berita pertama.</p>{% endif %}
+        {% if total_pages > 1 %}<nav class="pagination" aria-label="Halaman berita penulis">
+            {% if page > 1 %}<a class="page-link" href="/writer/dashboard?page={{ page - 1 }}">‹ Sebelumnya</a>{% endif %}
+            {% for page_number in pagination_pages %}<a class="page-link {% if page_number == page %}current{% endif %}" href="/writer/dashboard?page={{ page_number }}">{{ page_number }}</a>{% endfor %}
+            {% if page < total_pages %}<a class="page-link" href="/writer/dashboard?page={{ page + 1 }}">Berikutnya ›</a>{% endif %}
+            <span class="pagination-summary">Halaman {{ page }} dari {{ total_pages }}</span>
+        </nav>{% endif %}
+    </section>
+    {% else %}
+    <section class="panel" id="news-form">
+        <div class="section-heading"><div><p class="eyebrow">{{ 'EDIT BERITA #' ~ editing.id if editing else 'BERITA BARU' }}</p><h2>{{ 'Ubah berita' if editing else 'Tulis berita baru' }}</h2></div>
+            {% if editing %}<a class="button button-light" href="/writer/dashboard">Batal</a>{% endif %}</div>
+        <p class="panel-description">Berita akan diterbitkan atas nama <strong>{{ writer.name }}</strong>. Identitas penulis ditentukan dari akun yang sedang login.</p>
+        {% if not categories %}<div class="notice error-message">Belum ada kategori. Hubungi admin agar kategori berita ditambahkan.</div>{% endif %}
+        <form action="{{ '/writer/news/' ~ editing.id ~ '/update' if editing else '/writer/news/create' }}" method="post" enctype="multipart/form-data" class="news-form">
+            <label>Judul<input type="text" name="title" maxlength="255" required value="{{ editing.title if editing else '' }}"></label>
+            <label>Deskripsi<textarea name="description" rows="3">{{ editing.description if editing and editing.description else '' }}</textarea></label>
+            <label>Isi berita<textarea name="content" rows="10" required>{{ editing.content if editing else '' }}</textarea></label>
+            <label>Gambar berita <span class="field-hint">JPG, PNG, WEBP, atau GIF. Maksimal 5 MB.{% if editing %} Kosongkan untuk mempertahankan gambar saat ini.{% else %} Wajib diisi.{% endif %}</span>
+                <input type="file" name="image" id="writer-image" accept="image/jpeg,image/png,image/webp,image/gif" {% if not editing %}required{% endif %}></label>
+            <div class="image-preview-wrap" {% if not editing or not editing.image_url %}hidden{% endif %}><span class="preview-label">Pratinjau</span><img id="writer-preview" class="image-preview" src="{{ editing.image_url if editing and editing.image_url else '' }}" alt="Pratinjau berita"></div>
+            <label>Kategori<select name="category_id" required {% if not categories %}disabled{% endif %}><option value="">Pilih kategori</option>
+                {% for category in categories %}<option value="{{ category.id }}" {% if editing and editing.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>{% endfor %}</select></label>
+            <button class="button button-primary" type="submit" {% if not categories %}disabled{% endif %}>{{ 'Simpan perubahan' if editing else 'Terbitkan berita' }}</button>
+        </form>
+    </section>
+    {% endif %}
+</main>
+<script>
+    const imageInput = document.getElementById("writer-image");
+    const preview = document.getElementById("writer-preview");
+    const previewWrap = document.querySelector(".image-preview-wrap");
+    if (imageInput && preview && previewWrap) imageInput.addEventListener("change", () => {
+        const file = imageInput.files?.[0];
+        if (file) { preview.src = URL.createObjectURL(file); previewWrap.hidden = false; }
+    });
+</script>
+</body>
+</html>

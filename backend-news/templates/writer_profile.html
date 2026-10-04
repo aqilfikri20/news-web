@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub | Profil Penulis</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='dashboard.css') }}">
+</head>
+<body>
+<main class="main-content auth-main">
+    <header class="topbar">
+        <div><p class="eyebrow">PORTAL PENULIS</p><h1>Profil saya</h1><p>Perbarui data akun dan password Anda.</p></div>
+        <div class="topbar-actions"><a class="button button-primary site-link" href="{{ frontend_url }}">NewsHub ↗</a><a class="button button-light" href="/writer/dashboard">Kembali ke berita</a></div>
+    </header>
+    <section class="panel profile-panel">
+        {% if error %}<div class="notice error-message">{{ error }}</div>{% endif %}
+        {% if success %}<div class="notice success-message">{{ success }}</div>{% endif %}
+        <form action="/writer/profile" method="post" class="news-form">
+            <label>Nama<input type="text" name="name" maxlength="100" required autocomplete="name" value="{{ writer.name }}"></label>
+            <label>Email<input type="email" name="email" maxlength="255" required autocomplete="email" value="{{ writer.email }}"></label>
+            <label>Nomor HP<input type="tel" name="phone" maxlength="30" required autocomplete="tel" value="{{ writer.phone or '' }}"></label>
+            <label>Alamat<textarea name="address" rows="3" required autocomplete="street-address">{{ writer.address or '' }}</textarea></label>
+            <hr>
+            <p class="panel-description">Masukkan password saat ini untuk menyimpan perubahan profil. Kosongkan bagian password baru jika tidak ingin menggantinya.</p>
+            <label>Password saat ini<input type="password" name="current_password" required autocomplete="current-password"></label>
+            <label>Password baru <span class="field-hint">Minimal 8 karakter</span><input type="password" name="new_password" minlength="8" maxlength="128" autocomplete="new-password"></label>
+            <label>Ulangi password baru<input type="password" name="confirm_password" minlength="8" maxlength="128" autocomplete="new-password"></label>
+            <button class="button button-primary" type="submit">Simpan profil</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

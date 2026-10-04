@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub | Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='dashboard.css') }}">
+</head>
+<body>
+<main class="main-content">
+    <header class="topbar">
+        <div><p class="eyebrow">NEWSHUB ADMIN</p><h1>Kelola Penulis</h1><p>Admin mengelola akun penulis. Pendaftaran admin tidak tersedia.</p></div>
+        <div class="topbar-actions">
+            <a class="button button-primary site-link" href="{{ frontend_url }}">NewsHub ↗</a>
+            {% if logged_in %}<form action="/dashboard/logout" method="post"><button class="button button-light" type="submit">Keluar</button></form>{% endif %}
+        </div>
+    </header>
+
+    {% if error %}<div class="notice error-message">{{ error }}</div>{% endif %}
+    {% if success %}<div class="notice success-message">{{ success }}</div>{% endif %}
+
+    {% if not logged_in %}
+    <section class="panel login-panel">
+        <h2>Login Admin</h2>
+        <p>Masuk menggunakan akun admin yang dibuat melalui database.</p>
+        <form action="/dashboard/login" method="post" class="news-form">
+            <label>Email<input type="email" name="email" required autocomplete="username"></label>
+            <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+            <div class="captcha-control">
+                <label for="admin-captcha-answer">Verifikasi CAPTCHA</label>
+                <div class="captcha-row"><img id="admin-captcha-image" src="{{ captcha.image }}" alt="Kode CAPTCHA"><button class="button button-light" id="admin-captcha-refresh" type="button">Ganti kode</button></div>
+                <input type="hidden" name="captcha_id" id="admin-captcha-id" value="{{ captcha.id }}">
+                <input id="admin-captcha-answer" type="text" name="captcha_answer" maxlength="8" required autocomplete="off">
+            </div>
+            <button class="button button-primary" type="submit">Masuk sebagai admin</button>
+        </form>
+        <p class="auth-switch">Penulis? <a href="/writer/login">Masuk di sini</a></p>
+    </section>
+    {% else %}
+    <section class="admin-layout">
+        <section class="panel writer-create-panel">
+            <div class="section-heading"><div><p class="eyebrow">AKUN BARU</p><h2>Tambah penulis</h2></div></div>
+            <p class="panel-description">Akun akan langsung mendapat role penulis. Password dipakai untuk login penulis.</p>
+            <form action="/dashboard/writers/create" method="post" class="news-form">
+                <label>Nama<input type="text" name="name" maxlength="100" required></label>
+                <label>Email<input type="email" name="email" maxlength="255" required></label>
+                <label>Nomor HP<input type="tel" name="phone" maxlength="30" required></label>
+                <label>Alamat<textarea name="address" rows="3" required></textarea></label>
+                <label>Password awal<input type="password" name="password" minlength="8" maxlength="128" required autocomplete="new-password"></label>
+                <label>Ulangi password<input type="password" name="confirm_password" minlength="8" maxlength="128" required autocomplete="new-password"></label>
+                <button class="button button-primary" type="submit">Buat akun penulis</button>
+            </form>
+        </section>
+
+        <section class="panel writer-list-panel">
+            <div class="section-heading"><div><p class="eyebrow">DIREKTORI</p><h2>Daftar penulis <span class="count">{{ writers|length }}</span></h2></div></div>
+            {% if writers %}
+            <div class="writer-list">
+                {% for writer in writers %}
+                <article class="writer-row">
+                    <div class="writer-avatar">{{ writer.name[:1]|upper }}</div>
+                    <div class="writer-info">
+                        <strong>{{ writer.name }}</strong>
+                        <a href="mailto:{{ writer.email }}">{{ writer.email }}</a>
+                        <span>{{ writer.phone or 'Nomor HP belum diisi' }}</span>
+                        <span>{{ writer.address or 'Alamat belum diisi' }}</span>
+                    </div>
+                    <form action="/dashboard/writers/{{ writer.id }}/delete" method="post" onsubmit="return confirm('Hapus akun {{ writer.name }}? Berita yang sudah diterbitkan akan dialihkan ke akun admin.')">
+                        <button class="button button-danger" type="submit">Hapus</button>
+                    </form>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}<p class="empty-state">Belum ada akun penulis. Tambahkan melalui formulir ini atau arahkan penulis ke halaman pendaftaran.</p>{% endif %}
+            <a class="writer-signup-link" href="/writer/signup">Buka halaman pendaftaran penulis ↗</a>
+        </section>
+    </section>
+    {% endif %}
+</main>
+{% if not logged_in %}<script>
+    document.getElementById("admin-captcha-refresh").addEventListener("click", async () => {
+        const button = document.getElementById("admin-captcha-refresh");
+        button.disabled = true;
+        try {
+            const response = await fetch("/api/auth/captcha", { cache: "no-store" });
+            if (!response.ok) throw new Error("CAPTCHA tidak dapat dimuat");
+            const data = await response.json();
+            document.getElementById("admin-captcha-image").src = data.image;
+            document.getElementById("admin-captcha-id").value = data.id;
+            document.getElementById("admin-captcha-answer").value = "";
+        } catch (error) { window.location.reload(); }
+        finally { button.disabled = false; }
+    });
+</script>{% endif %}
+</body>
+</html>

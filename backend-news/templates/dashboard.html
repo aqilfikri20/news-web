@@ -1,448 +1,164 @@
-
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>NewsHub Dashboard</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', path='dashboard.css') }}"
-    >
+    <title>NewsHub | Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='dashboard.css') }}">
 </head>
-
 <body>
-
-    <div class="dashboard">
-
-        <main class="main-content">
-
-            <!-- =========================
-                 HEADER
-            ========================== -->
-
-            <header class="topbar">
-
-                <div>
-                    <h1>Dashboard</h1>
-
-                    <p>
-                        Kelola data NewsHub melalui dashboard.
-                    </p>
-                </div>
-
-                {% if logged_in %}
-
-                <div class="admin-profile">
-
-                    <div class="avatar">
-                        A
-                    </div>
-
-                    <div>
-                        <strong>Admin</strong>
-
-                        <small>
-                            Administrator
-                        </small>
-                    </div>
-
-                </div>
-
-                {% endif %}
-
-            </header>
-
-
-            <!-- =========================
-                 CONTENT
-            ========================== -->
-
-            <section class="content-grid">
-
-
-                <!-- =========================
-                     LOGIN / UPLOAD
-                ========================== -->
-
-                <div class="card upload-card">
-
-                    {% if not logged_in %}
-
-                    <!-- =========================
-                         ADMIN LOGIN
-                    ========================== -->
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <h2>
-                                Admin Login
-                            </h2>
-
-                            <p>
-                                Login untuk mengupload data berita.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    {% if error %}
-
-                    <div class="error-message">
-                        {{ error }}
-                    </div>
-
-                    {% endif %}
-
-
-                    <form
-                        action="/dashboard/login"
-                        method="POST"
-                    >
-
-                        <div class="form-group">
-
-                            <label for="email">
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="admin@newshub.com"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="password">
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Masukkan password"
-                                required
-                            >
-
-                        </div>
-
-
-                        <button
-                            type="submit"
-                            class="primary-button"
-                        >
-                            Login
-                        </button>
-
-                    </form>
-
-
-                    {% else %}
-
-                    <!-- =========================
-                         UPLOAD NEWS JSON
-                    ========================== -->
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <h2>
-                                Upload News JSON
-                            </h2>
-
-                            <p>
-                                Import data berita ke database.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- SUCCESS MESSAGE -->
-
-                    {% if success %}
-
-                    <div class="success-message">
-                        {{ success }}
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- ERROR MESSAGE -->
-
-                    {% if error %}
-
-                    <div class="error-message">
-                        {{ error }}
-                    </div>
-
-                    {% endif %}
-
-
-                    <!-- UPLOAD FORM -->
-
-                    <form
-                        action="/dashboard/upload"
-                        method="POST"
-                        enctype="multipart/form-data"
-                    >
-
-                        <div class="upload-area">
-
-                            <div class="upload-icon">
-                                ↑
-                            </div>
-
-
-                            <h3>
-                                Upload file JSON
-                            </h3>
-
-
-                            <p>
-                                Pilih file JSON yang berisi
-                                data berita.
-                            </p>
-
-
-                            <input
-                                type="file"
-                                name="file"
-                                accept=".json,application/json"
-                                id="json-file"
-                                required
-                            >
-
-
-                            <label
-                                for="json-file"
-                                class="choose-file"
-                            >
-                                Choose File
-                            </label>
-
-
-                            <span id="file-name">
-                                Belum ada file dipilih
-                            </span>
-
-                        </div>
-
-
-                        <button
-                            type="submit"
-                            class="primary-button"
-                        >
-                            Upload & Import
-                        </button>
-
-                    </form>
-
-                    {% endif %}
-
-                </div>
-
-
-                <!-- =========================
-                     API DOCUMENTATION
-                ========================== -->
-
-                <div class="card api-card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <h2>
-                                API Documentation
-                            </h2>
-
-                            <p>
-                                Dokumentasi RESTful API NewsHub.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="api-info">
-
-                        <!-- GET -->
-
-                        <div class="api-row">
-
-                            <span class="method get">
-                                GET
-                            </span>
-
-                            <code>
-                                /api/news/
-                            </code>
-
-                        </div>
-
-
-                        <!-- POST -->
-
-                        <div class="api-row">
-
-                            <span class="method post">
-                                POST
-                            </span>
-
-                            <code>
-                                /api/news/
-                            </code>
-
-                        </div>
-
-
-                        <!-- PUT -->
-
-                        <div class="api-row">
-
-                            <span class="method put">
-                                PUT
-                            </span>
-
-                            <code>
-                                /api/news/{id}
-                            </code>
-
-                        </div>
-
-
-                        <!-- DELETE -->
-
-                        <div class="api-row">
-
-                            <span class="method delete">
-                                DELETE
-                            </span>
-
-                            <code>
-                                /api/news/{id}
-                            </code>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- DOCUMENTATION BUTTONS -->
-
-                    <div class="documentation-buttons">
-
-                        <a
-                            href="/docs"
-                            class="primary-button"
-                        >
-                            Open Swagger UI
-                        </a>
-
-
-                        <a
-                            href="/redoc"
-                            class="secondary-button"
-                        >
-                            Open ReDoc
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =========================
-                 LOGOUT
-            ========================== -->
-
-            {% if logged_in %}
-
-            <div class="logout-container">
-
-                <form
-                    action="/dashboard/logout"
-                    method="POST"
-                >
-
-                    <button
-                        type="submit"
-                        class="logout-button"
-                    >
-                        Logout
-                    </button>
-
-                </form>
-
+<main class="main-content">
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">NEWSHUB ADMIN</p>
+            <h1>{{ 'Tambah berita' if mode in ['create', 'edit'] else 'Dashboard berita' }}</h1>
+            <p>{{ 'Isi formulir untuk menerbitkan atau memperbarui berita.' if mode in ['create', 'edit'] else 'Ringkasan berita yang tersimpan di database.' }}</p>
+        </div>
+        <div class="topbar-actions">
+            <a class="button button-primary site-link" href="{{ frontend_url }}">NewsHub ↗</a>
+            {% if logged_in %}<form action="/dashboard/logout" method="post"><button class="button button-light" type="submit">Logout</button></form>{% endif %}
+        </div>
+    </header>
+
+    {% if logged_in %}
+    <nav class="dashboard-nav" aria-label="Navigasi dashboard">
+        <a class="nav-tab {% if mode == 'list' %}active{% endif %}" href="/dashboard">Daftar berita</a>
+        <a class="nav-tab {% if mode in ['create', 'edit'] %}active{% endif %}" href="/dashboard/news/new">Tambah berita</a>
+    </nav>
+    {% endif %}
+
+    {% if error %}<div class="notice error-message">{{ error }}</div>{% endif %}
+    {% if success or request.query_params.get('success') %}
+    <div class="notice success-message">{{ success or request.query_params.get('success') }}</div>
+    {% endif %}
+
+    {% if not logged_in %}
+    <section class="panel login-panel">
+        <h2>Login Admin</h2>
+        <p>Gunakan akun dengan role <code>admin</code> yang tersimpan di tabel users.</p>
+        <form action="/dashboard/login" method="post" class="news-form">
+            <label>Email<input type="email" name="email" required autocomplete="username"></label>
+            <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+            <button class="button button-primary" type="submit">Login</button>
+        </form>
+    </section>
+    {% elif mode == 'list' %}
+    <section class="panel list-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">DATABASE</p>
+                <h2>Semua berita <span class="count">{{ total_news }} berita</span></h2>
             </div>
+            <a class="button button-primary add-news-button" href="/dashboard/news/new">+ Tambah berita</a>
+        </div>
+        {% if news_items %}
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Gambar</th><th>Berita</th><th>Kategori</th><th>Penulis</th><th>Dibuat</th><th>Aksi</th></tr></thead>
+                <tbody>
+                {% for item in news_items %}
+                <tr>
+                    <td><img class="news-thumbnail" src="{{ item.image_url or '' }}" alt="Gambar {{ item.title }}" loading="lazy" {% if not item.image_url %}hidden{% endif %}></td>
+                    <td><strong>{{ item.title }}</strong><small>ID {{ item.id }}</small></td>
+                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.author.name }}</td>
+                    <td>{{ item.created_at.strftime('%d %b %Y') if item.created_at else '—' }}</td>
+                    <td class="actions">
+                        <a class="button button-light" href="/dashboard/news/{{ item.id }}/edit">Edit</a>
+                        <form action="/dashboard/news/{{ item.id }}/delete" method="post" onsubmit="return confirm('Hapus berita ini? Gambar Cloudinary juga akan dihapus.')">
+                            <button class="button button-danger" type="submit">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}<p class="empty-state">Belum ada berita. Tambahkan berita pertama Anda.</p>{% endif %}
 
-            {% endif %}
+        {% if total_pages > 1 %}
+        <nav class="pagination" aria-label="Halaman daftar berita">
+            {% if page > 1 %}<a class="page-link" href="/dashboard?page={{ page - 1 }}" aria-label="Halaman sebelumnya">‹ Sebelumnya</a>{% endif %}
+            {% for page_number in pagination_pages %}
+            <a class="page-link {% if page_number == page %}current{% endif %}" href="/dashboard?page={{ page_number }}" {% if page_number == page %}aria-current="page"{% endif %}>{{ page_number }}</a>
+            {% endfor %}
+            {% if page < total_pages %}<a class="page-link" href="/dashboard?page={{ page + 1 }}" aria-label="Halaman berikutnya">Berikutnya ›</a>{% endif %}
+            <span class="pagination-summary">Halaman {{ page }} dari {{ total_pages }}</span>
+        </nav>
+        {% endif %}
+    </section>
+    {% else %}
+    <section class="panel" id="news-form">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">{{ 'EDIT BERITA #' ~ editing.id if editing else 'BERITA BARU' }}</p>
+                <h2>{{ 'Ubah berita' if editing else 'Isi data berita' }}</h2>
+            </div>
+            {% if editing %}<a class="button button-light" href="/dashboard">Batal edit</a>{% endif %}
+        </div>
 
-        </main>
+        {% if not categories or not authors %}
+        <div class="notice error-message">
+            Form berita memerlukan minimal satu kategori dan satu penulis di database.
+            {% if not categories %}Tambahkan kategori melalui <a href="/docs#/Categories">API kategori</a>.{% endif %}
+            {% if not authors %}Tambahkan akun melalui <a href="/docs#/Auth">API autentikasi</a>.{% endif %}
+        </div>
+        {% endif %}
 
-    </div>
-
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
-
-    <script>
-
-        const fileInput =
-            document.getElementById("json-file");
-
-        const fileName =
-            document.getElementById("file-name");
-
-
-        if (fileInput && fileName) {
-
-            fileInput.addEventListener(
-                "change",
-                function () {
-
-                    if (this.files.length > 0) {
-
-                        fileName.textContent =
-                            this.files[0].name;
-
-                    } else {
-
-                        fileName.textContent =
-                            "Belum ada file dipilih";
-
-                    }
-
-                }
-            );
-
-        }
-
-    </script>
-
+        <form action="{{ '/dashboard/news/' ~ editing.id ~ '/update' if editing else '/dashboard/news/create' }}" method="post" enctype="multipart/form-data" class="news-form">
+            <label>Judul berita
+                <input type="text" name="title" maxlength="255" required value="{{ editing.title if editing else '' }}">
+            </label>
+            <label>Deskripsi
+                <textarea name="description" rows="3">{{ editing.description if editing and editing.description else '' }}</textarea>
+            </label>
+            <label>Isi berita
+                <textarea name="content" rows="9" required>{{ editing.content if editing else '' }}</textarea>
+            </label>
+            <label>Gambar berita <span class="field-hint">JPG, PNG, WEBP, atau GIF. Maksimal 5 MB.{% if editing %} Kosongkan jika ingin memakai gambar saat ini.{% else %} Wajib diisi.{% endif %}</span>
+                <input type="file" name="image" id="news-image" accept="image/jpeg,image/png,image/webp,image/gif" {% if not editing %}required{% endif %}>
+            </label>
+            <div class="image-preview-wrap" {% if not editing or not editing.image_url %}hidden{% endif %}>
+                <span class="preview-label">Pratinjau gambar</span>
+                <img id="image-preview" class="image-preview" src="{{ editing.image_url if editing and editing.image_url else '' }}" alt="Pratinjau gambar berita">
+            </div>
+            <div class="form-row">
+                <label>Kategori
+                    <select name="category_id" required {% if not categories %}disabled{% endif %}>
+                        <option value="">Pilih kategori</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if editing and editing.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Penulis
+                    <select name="author_id" required {% if not authors %}disabled{% endif %}>
+                        <option value="">Pilih penulis</option>
+                        {% for author in authors %}
+                        <option value="{{ author.id }}" {% if editing and editing.author_id == author.id %}selected{% endif %}>{{ author.name }} ({{ author.role }})</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+            <button class="button button-primary" type="submit" {% if not categories or not authors %}disabled{% endif %}>
+                {{ 'Simpan perubahan' if editing else 'Terbitkan berita' }}
+            </button>
+        </form>
+    </section>
+    {% endif %}
+</main>
+<script>
+    const imageInput = document.getElementById("news-image");
+    const preview = document.getElementById("image-preview");
+    const previewWrap = document.querySelector(".image-preview-wrap");
+    if (imageInput && preview && previewWrap) {
+        imageInput.addEventListener("change", () => {
+            const file = imageInput.files?.[0];
+            if (!file) return;
+            preview.src = URL.createObjectURL(file);
+            previewWrap.hidden = false;
+        });
+    }
+</script>
 </body>
-
 </html>
-

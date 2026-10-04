@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from .. import crud
 from .. import schemas
+from ..security import require_admin
 
 
 router = APIRouter(
@@ -63,7 +64,8 @@ def get_category_by_id(
 )
 def create_category(
     category: schemas.CategoryCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin=Depends(require_admin),
 ):
     return crud.create_category(
         db,
@@ -82,7 +84,8 @@ def create_category(
 def update_category(
     category_id: int,
     category: schemas.CategoryUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin=Depends(require_admin),
 ):
     updated_category = crud.update_category(
         db,
@@ -108,7 +111,8 @@ def update_category(
 )
 def delete_category(
     category_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin=Depends(require_admin),
 ):
     deleted_category = crud.delete_category(
         db,

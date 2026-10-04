@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" fill="none">
+  <rect width="1200" height="750" fill="#EEF2F8"/>
+  <rect x="430" y="230" width="340" height="260" rx="28" fill="#DCE4F1"/>
+  <circle cx="535" cy="320" r="34" fill="#A8B8D1"/>
+  <path d="M454 452L553 360L620 419L680 367L746 452H454Z" fill="#A8B8D1"/>
+  <text x="600" y="555" text-anchor="middle" fill="#74839A" font-family="Arial,sans-serif" font-size="30">NewsHub</text>
+</svg>

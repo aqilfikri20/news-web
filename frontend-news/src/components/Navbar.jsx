@@ -1,90 +1,55 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import "../styles/Navbar.css";
+import { useState } from "react";
+import { NavLink, Link } from "react-router-dom";
+import "../styles/navbar.css";
+
+const categories = ["Technology", "Business", "Development"];
 
 function Navbar() {
-  const navigate = useNavigate();
-
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-
-    navigate("/login");
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
+  const backendUrl = (
+    import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || ""
+  ).replace(/\/$/, "");
+  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <nav className="navbar">
-
+    <nav className={`navbar ${menuOpen ? "menu-open" : ""}`}>
       <div className="container navbar-content">
-
-        {/* Logo */}
-        <Link
-          to="/"
-          className="logo"
-        >
+        <Link to="/" className="logo" onClick={closeMenu}>
           News<span>Hub</span>
         </Link>
 
-        {/* Menu */}
-        <div className="nav-menu">
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={menuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
 
-          <Link to="/">
-            Home
-          </Link>
-
-          <Link to="/">
-            Technology
-          </Link>
-
-          <Link to="/">
-            Business
-          </Link>
-
-          <Link to="/">
-            Development
-          </Link>
-
+        <div className="nav-menu" id="primary-navigation">
+          <NavLink to="/" end onClick={closeMenu}>Beranda</NavLink>
+          {categories.map((category) => (
+            <NavLink
+              key={category}
+              to={`/category/${category}`}
+              onClick={closeMenu}
+            >
+              {category}
+            </NavLink>
+          ))}
         </div>
 
-        {/* Auth */}
         <div className="nav-auth">
-
-          {user ? (
-            <>
-              <span className="user-name">
-                Hi, {user.name}
-              </span>
-
-              <button
-                onClick={handleLogout}
-                className="logout-button"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="login-button"
-              >
-                Login
-              </Link>
-
-              <Link
-                to="/register"
-                className="register-button"
-              >
-                Register
-              </Link>
-            </>
-          )}
-
+          <a className="portal-button" href={`${backendUrl}/dashboard`}>
+            Portal pengelola
+          </a>
         </div>
-
       </div>
-
     </nav>
   );
 }

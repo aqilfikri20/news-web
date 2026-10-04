@@ -123,9 +123,10 @@ function NewsDetail() {
         {/* Image */}
         <div className="news-detail-image-wrapper">
           <img
-            src={news.image_url}
+            src={news.image_url || "/news-placeholder.svg"}
             alt={news.title}
             className="news-detail-image"
+            onError={(event) => { event.currentTarget.src = "/news-placeholder.svg"; }}
           />
         </div>
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub | {{ 'Daftar Penulis' if mode == 'signup' else 'Login Penulis' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='dashboard.css') }}">
+</head>
+<body>
+<main class="main-content auth-main">
+    <a class="button button-light site-link" href="{{ frontend_url }}">← Kembali ke NewsHub</a>
+    <section class="panel login-panel">
+        <p class="eyebrow">PORTAL PENULIS</p>
+        <h1>{{ 'Buat akun penulis' if mode == 'signup' else 'Selamat datang kembali' }}</h1>
+        <p>{{ 'Daftar untuk mulai menerbitkan dan mengelola berita Anda.' if mode == 'signup' else 'Login untuk membuka dashboard dan mengelola berita Anda.' }}</p>
+        {% if error %}<div class="notice error-message">{{ error }}</div>{% endif %}
+
+        {% if mode == 'signup' %}
+        <form action="/writer/signup" method="post" class="news-form">
+            <label>Nama<input type="text" name="name" maxlength="100" required autocomplete="name"></label>
+            <label>Email<input type="email" name="email" maxlength="255" required autocomplete="email"></label>
+            <label>Nomor HP<input type="tel" name="phone" maxlength="30" required autocomplete="tel"></label>
+            <label>Alamat<textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
+            <label>Password<input type="password" name="password" minlength="8" maxlength="128" required autocomplete="new-password"></label>
+            <label>Ulangi password<input type="password" name="confirm_password" minlength="8" maxlength="128" required autocomplete="new-password"></label>
+            <div class="captcha-control">
+                <label for="captcha-answer">Verifikasi CAPTCHA</label>
+                <div class="captcha-row">
+                    <img id="captcha-image" src="{{ captcha.image }}" alt="Kode CAPTCHA">
+                    <button class="button button-light" id="captcha-refresh" type="button">Ganti kode</button>
+                </div>
+                <input type="hidden" name="captcha_id" id="captcha-id" value="{{ captcha.id }}">
+                <input id="captcha-answer" type="text" name="captcha_answer" maxlength="8" required autocomplete="off" aria-describedby="captcha-help">
+                <span class="field-hint" id="captcha-help">Ketik 5 karakter yang terlihat pada gambar.</span>
+            </div>
+            <button class="button button-primary" type="submit">Daftar sebagai penulis</button>
+        </form>
+        <p class="auth-switch">Sudah punya akun? <a href="/writer/login">Login</a></p>
+        {% else %}
+        <form action="/writer/login" method="post" class="news-form">
+            <label>Email<input type="email" name="email" required autocomplete="username"></label>
+            <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+            <div class="captcha-control">
+                <label for="captcha-answer">Verifikasi CAPTCHA</label>
+                <div class="captcha-row">
+                    <img id="captcha-image" src="{{ captcha.image }}" alt="Kode CAPTCHA">
+                    <button class="button button-light" id="captcha-refresh" type="button">Ganti kode</button>
+                </div>
+                <input type="hidden" name="captcha_id" id="captcha-id" value="{{ captcha.id }}">
+                <input id="captcha-answer" type="text" name="captcha_answer" maxlength="8" required autocomplete="off">
+            </div>
+            <button class="button button-primary" type="submit">Login penulis</button>
+        </form>
+        <p class="auth-switch">Belum punya akun? <a href="/writer/signup">Daftar sebagai penulis</a></p>
+        {% endif %}
+        <p class="auth-switch"><a href="/dashboard">Login admin</a></p>
+    </section>
+</main>
+{% if mode in ['signup', 'login'] %}<script>
+    document.getElementById("captcha-refresh").addEventListener("click", async () => {
+        const button = document.getElementById("captcha-refresh");
+        button.disabled = true;
+        try {
+            const response = await fetch("/api/auth/captcha", { cache: "no-store" });
+            if (!response.ok) throw new Error("CAPTCHA tidak dapat dimuat");
+            const data = await response.json();
+            document.getElementById("captcha-image").src = data.image;
+            document.getElementById("captcha-id").value = data.id;
+            document.getElementById("captcha-answer").value = "";
+        } catch (error) { window.location.reload(); }
+        finally { button.disabled = false; }
+    });
+</script>{% endif %}
+</body>
+</html>
